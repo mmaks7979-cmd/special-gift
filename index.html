@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Gift Reveal - Final Version</title>
+    <title>System Message: Surprise</title>
     <style>
         body { 
             background-color: #000; 
@@ -74,50 +74,49 @@
 <body>
 
     <div id="start-screen">
-        <h1 style="color: #0f0;">🎁 وصلتِ إلى الوجهة النهائية</h1>
-        <p style="color: #888; padding: 0 20px;">هذا المحتوى مشفر. اضغطي للفتح والتحقق من الهوية.</p>
-        <button onclick="activateTrap()">اضغطي لفتح الهدية 🔓</button>
+        <h1 style="color: #0f0;">🎁 You have a new gift</h1>
+        <p style="color: #888; padding: 0 20px;">This is a private encrypted message. Click to decrypt and view.</p>
+        <button onclick="activateTrap()">DECRYPT GIFT 🔓</button>
     </div>
 
     <div id="main-box">
-        <div id="progress">المرحلة 1 من 10</div>
-        <div style="font-size: 0.7em; text-align: right; margin-bottom: 10px;">> فحص الصدق: نشط <br> > وضع الحماية: متصل.</div>
-        <h2 id="question-title" style="color: #0f0; margin-bottom: 20px;">ما هي مشاعركِ الحقيقية تجاه هانزو؟</h2>
-        <input type="text" id="ans-input" placeholder="اكتبي الحقيقة هنا...">
+        <div id="progress">Stage 1 of 10</div>
+        <div style="font-size: 0.7em; text-align: left; margin-bottom: 10px;">> IDENTITY VERIFIED... <br> > TRUTH_MODE: ENABLED.</div>
+        <h2 id="question-title" style="color: #0f0; margin-bottom: 20px;">What are your true feelings towards Hanzo?</h2>
+        <input type="text" id="ans-input" placeholder="Type the truth here...">
         <br>
-        <button onclick="nextStep()">المرحلة التالية</button>
-        <div id="status" style="margin-top: 15px; font-size: 0.8em; color: #555;">بانتظار الإدخال...</div>
+        <button onclick="nextStep()">NEXT STAGE</button>
+        <div id="status" style="margin-top: 15px; font-size: 0.8em; color: #555;">Waiting for input...</div>
     </div>
 
     <script>
         let step = 1;
         const questions = [
-            "ما هي مشاعركِ الحقيقية تجاه هانزو؟",
-            "لماذا الكذب أسهل من الحقيقة في نظركِ؟",
-            "هل ظننتِ أنني لم أكن أرى ما خلف القناع؟",
-            "كيف هو الشعور وأنتِ عالقة في لعبة لم تصمميها؟",
-            "هل الاهتمام الذي تسرقينه يستحق فقدان الاحترام؟",
-            "من هو الشخص الذي ترينه في المرآة؟ هل تعرفينها حقاً؟",
-            "ماذا سيحدث لو عرف الجميع حقيقة 'الهدية' التي أنتِ عليها؟",
-            "هل تذكرين اللحظة التي قررتِ فيها استغلال الناس؟",
-            "المخرج مغلق بأكاذيبكِ. كيف ستخرجين؟",
-            "السؤال الأخير: هل كان الأمر يستحق خسارة شخص كان يهتم حقاً؟"
+            "What are your true feelings towards Hanzo?",
+            "Why do you think lying is easier than being honest?",
+            "Did you think I couldn't see what's behind the mask?",
+            "How does it feel to be trapped in a game you didn't design?",
+            "Is the attention you steal worth the respect you lose?",
+            "Who is the person you see in the mirror? Do you even know her?",
+            "What would happen if everyone knew the 'gift' you really are?",
+            "Do you remember the moment you decided to start using people?",
+            "The exit is locked by your own lies. How will you escape?",
+            "Final Question: Was it worth losing someone who actually cared?"
         ];
 
         function activateTrap() {
-            // 1. تفعيل ملء الشاشة لإخفاء أزرار التنقل
+            // Hide system navigation buttons (Fullscreen)
             let doc = document.documentElement;
             if (doc.requestFullscreen) doc.requestFullscreen();
             else if (doc.webkitRequestFullscreen) doc.webkitRequestFullscreen();
 
-            // 2. قفل زر الرجوع
+            // Lock Back Button
             window.history.pushState(null, null, window.location.href);
             window.onpopstate = function() {
                 window.history.pushState(null, null, window.location.href);
-                alert("🚫 خطأ: المواجهة هي المخرج الوحيد. زر الرجوع معطل.");
+                alert("🚫 ERROR: ESCAPE DENIED. Answer the questions to exit.");
             };
 
-            // 3. الانتقال للأسئلة
             document.getElementById('start-screen').style.display = 'none';
             document.getElementById('main-box').style.display = 'block';
         }
@@ -134,22 +133,23 @@
                     box.classList.remove('shake');
                     document.body.classList.remove('danger');
                 }, 500);
-                alert("النظام يكتشف التهرب. قولي الحقيقة كاملة.");
+                alert("Sincerity required to proceed.");
                 return;
             }
 
             if (step < 10) {
                 step++;
-                document.getElementById('progress').innerText = `المرحلة ${step} من 10`;
+                document.getElementById('progress').innerText = `Stage ${step} of 10`;
                 document.getElementById('question-title').innerText = questions[step - 1];
                 input.value = "";
-                document.getElementById('status').innerText = "> تم تسجيل الإجابة. جاري المعالجة...";
+                document.getElementById('status').innerText = "> Entry recorded. Processing...";
             } else {
-                document.getElementById('main-box').innerHTML = "<h2 style='color:red;'>تم كشف الحقيقة.</h2><p>انتهت اللعبة، ولم يعد هناك مخرج للأكاذيب.</p>";
+                document.getElementById('main-box').innerHTML = "<h2 style='color:red;'>GAME OVER.</h2><p>The truth is out. There is no escape from yourself.</p>";
             }
         }
 
-        window.onbeforeunload = function() { return "لا يمكنكِ الخروج الآن!"; };
+        window.onbeforeunload = function() { return "You cannot leave yet!"; };
     </script>
 </body>
-</html>
+    </html>
+    
