@@ -2,10 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>A Special Gift For You</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special Gift For You</title>
     <style>
-        body { background-color: #000; color: #0f0; font-family: 'Courier New', monospace; text-align: center; padding: 50px; overflow: hidden; transition: background 0.3s; }
-        .terminal { border: 1px solid #0f0; padding: 30px; display: inline-block; background: #050505; box-shadow: 0 0 20px #0f0; max-width: 650px; position: relative; }
+        body {
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            transition: background-color 0.3s;
+        }
+        #main-box {
+            border: 2px solid #0f0;
+            padding: 20px;
+            text-align: center;
+            max-width: 90%;
+            box-shadow: 0 0 20px #0f0;
+        }
+        .shake-active { animation: shake 0.5s; }
         @keyframes shake {
             0% { transform: translate(1px, 1px) rotate(0deg); }
             10% { transform: translate(-1px, -2px) rotate(-1deg); }
@@ -19,89 +39,132 @@
             90% { transform: translate(1px, 2px) rotate(0deg); }
             100% { transform: translate(1px, -2px) rotate(-1deg); }
         }
-        .shake-active { animation: shake 0.5s; animation-iteration-count: infinite; border-color: red !important; box-shadow: 0 0 30px red !important; }
-        .bg-danger { background-color: #300 !important; }
-        input { background: #000; color: #0f0; border: 1px solid #0f0; padding: 12px; width: 90%; margin: 15px 0; font-size: 1.1em; outline: none; }
-        button { background: #0f0; color: #000; border: none; padding: 10px 25px; cursor: pointer; font-weight: bold; margin-top: 10px; text-transform: uppercase; }
-        #status { color: #ff0000; font-weight: bold; margin-top: 15px; min-height: 20px; }
-        #mic-section { display: none; border-top: 1px dashed #0f0; margin-top: 25px; padding-top: 15px; }
+        .bg-danger { background-color: #830000 !important; }
+        input {
+            background: #000;
+            border: 1px solid #0f0;
+            color: #0f0;
+            padding: 10px;
+            width: 80%;
+            margin-top: 20px;
+            outline: none;
+        }
+        button {
+            background: #0f0;
+            color: #000;
+            border: none;
+            padding: 12px 24px;
+            margin-top: 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        #status { font-size: 0.8em; margin-top: 10px; color: #888; }
+        #progress { margin-bottom: 15px; border-bottom: 1px solid #0f0; padding-bottom: 5px; }
     </style>
 </head>
-<body oncontextmenu="return false;">
-<div class="terminal" id="main-box">
-    <div id="header-text" style="font-size: 0.8em; color: #888; text-align: left;">
-        > INITIALIZING GIFT_MODULE...<br> > DECRYPTING SURPRISE...<br> > IDENTITY MATCHED.
+<body>
+
+    <div id="main-box">
+        <div id="header-text" style="font-size: 0.7em; text-align: left; margin-bottom: 10px;">
+            > INITIALIZING GIFT_MODULE...<br>
+            > DECRYPTING SURPRISE...<br>
+            > IDENTITY MATCHED.
+        </div>
+        <h2 style="color: #0f0;">❤️ SURPRISE REVEAL ❤️</h2>
+        <div id="progress">Stage 1 of 10</div>
+        <p id="question-text">What are your true feelings towards Hanzo?</p>
+        <input type="text" id="answer-input" placeholder="Type the truth to unlock...">
+        <br>
+        <button id="next-btn" onclick="nextQuestion()">UNLOCK NEXT STAGE</button>
+        <div id="status">> Awaiting input...</div>
+        
+        <div id="mic-section" style="display:none; margin-top: 20px;">
+            <p id="mic-status">Final stage requires voice verification.</p>
+            <button onclick="activateMic()">ENABLE MICROPHONE</button>
+        </div>
     </div>
-    <h2 id="title">❤️ SURPRISE REVEAL ❤️</h2>
-    <p id="progress">Stage 1 of 10</p>
-    <hr color="#0f0" id="line">
-    <p id="question-text" style="font-size: 1.3em; color: #fff;">What are your true feelings towards Hanzo?</p>
-    <input type="text" id="answer-input" placeholder="Type the truth to unlock the gift...">
-    <br>
-    <button id="next-btn" onclick="nextQuestion()">Unlock Next Stage</button>
-    <div id="status"></div>
-    <div id="mic-section">
-        <p style="color: #ff3e3e;">[SECURITY BREACH] Voice Verification Required.</p>
-        <button onclick="activateMic()" style="background: #ff0000; color: #fff;">Speak to Close Terminal</button>
-        <p id="mic-status"></p>
-    </div>
-</div>
-<script>
-    let currentStep = 1;
-    const questions = [
-        "What are your true feelings towards Hanzo?",
-        "Why do you think lying is easier than being honest?",
-        "Did you think I was too blind to see behind your mask?",
-        "How does it feel to be trapped in a game you didn't design?",
-        "Is the attention you steal worth the respect you lose?",
-        "Who is the person you see in the mirror? Do you even know her?",
-        "What would happen if everyone knew the 'gift' you really are?",
-        "Do you remember the moment you decided to start using people?",
-        "The exit is locked by your own lies. How will you escape?",
-        "Final Question: Was it worth losing someone who actually cared?"
-    ];
-    function nextQuestion() {
-        let input = document.getElementById('answer-input');
-        let status = document.getElementById('status');
-        let box = document.getElementById('main-box');
-        let body = document.body;
-        if (input.value.trim().length < 3) {
-            box.classList.add('shake-active');
-            body.classList.add('bg-danger');
-            status.innerText = "!! ACCESS DENIED: SINCERITY NOT DETECTED !!";
-            setTimeout(() => { box.classList.remove('shake-active'); body.classList.remove('bg-danger'); }, 1000);
-            return;
-        }
-        if (currentStep < 10) {
-            currentStep++;
-            document.getElementById('progress').innerText = `Stage ${currentStep} of 10`;
-            document.getElementById('question-text').innerText = questions[currentStep - 1];
-            if (currentStep === 2) {
-                document.getElementById('title').innerText = "⚠️ THE TRUTH ENCOUNTER";
-                document.getElementById('title').style.color = "#0f0";
+
+    <script>
+        let currentStep = 1;
+        const questions = [
+            "What are your true feelings towards Hanzo?",
+            "Why do you think lying is easier than being honest?",
+            "Did you think I was too blind to see behind your mask?",
+            "How does it feel to be trapped in a game you didn't design?",
+            "Is the attention you steal worth the respect you lose?",
+            "Who is the person you see in the mirror? Do you even know her?",
+            "What would happen if everyone knew the 'gift' you really are?",
+            "Do you remember the moment you decided to start using people?",
+            "The exit is locked by your own lies. How will you escape?",
+            "Final Question: Was it worth losing someone who actually cared?"
+        ];
+
+        // حيلة قفل زر الرجوع
+        history.pushState(null, null, location.href);
+        window.onpopstate = function () {
+            history.go(1);
+            alert("The truth is the only way out. Back button disabled.");
+        };
+
+        function nextQuestion() {
+            // تفعيل ملء الشاشة عند أول تفاعل
+            if (currentStep === 1) {
+                document.documentElement.requestFullscreen().catch(e => console.log(e));
             }
-            input.value = "";
-            status.innerText = "> Entry Recorded. Analyzing...";
-            status.style.color = "#0f0";
-        } else {
-            document.getElementById('question-text').innerText = "Gift Unlocked: The Mirror of Truth.";
-            document.getElementById('answer-input').style.display = "none";
-            document.getElementById('next-btn').style.display = "none";
-            document.getElementById('mic-section').style.display = "block";
-            status.innerText = "SAY YOUR GOODBYES.";
-            status.style.color = "#ff0000";
+
+            let input = document.getElementById('answer-input');
+            let status = document.getElementById('status');
+            let box = document.getElementById('main-box');
+            let body = document.body;
+
+            if (input.value.trim().length < 3) {
+                box.classList.add('shake-active');
+                body.classList.add('bg-danger');
+                status.innerText = "!! ACCESS DENIED: SINCERITY NOT DETECTED !!";
+                status.style.color = "#ff0000";
+                setTimeout(() => { 
+                    box.classList.remove('shake-active'); 
+                    body.classList.remove('bg-danger'); 
+                }, 1000);
+                return;
+            }
+
+            if (currentStep < 10) {
+                currentStep++;
+                document.getElementById('progress').innerText = `Stage ${currentStep} of 10`;
+                document.getElementById('question-text').innerText = questions[currentStep - 1];
+                input.value = "";
+                status.innerText = "> Entry Recorded. Analyzing...";
+                status.style.color = "#0f0";
+            } else {
+                document.getElementById('question-text').innerText = "Gift Unlocked: The Mirror of Truth.";
+                document.getElementById('answer-input').style.display = "none";
+                document.getElementById('next-btn').style.display = "none";
+                document.getElementById('mic-section').style.display = "block";
+                status.innerText = "SAY YOUR GOODBYES.";
+                status.style.color = "#ff0000";
+            }
         }
-    }
-    async function activateMic() {
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-            document.getElementById('mic-status').innerText = "🎙️ Mic Active. Speak now, I am listening to every word.";
-            document.getElementById('mic-status').style.color = "#ff0000";
-        } catch (err) {
-            alert("The 'Gift' requires your voice to be finalized. Permit microphone access.");
+
+        async function activateMic() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                document.getElementById('mic-status').innerText = "🎙️ Mic Active. Speak now, I am listening to every word.";
+                document.getElementById('mic-status').style.color = "#ff0000";
+            } catch (err) {
+                alert("The 'Gift' requires your voice to be finalized. Permit microphone access.");
+            }
         }
-    }
-    window.onbeforeunload = function() { return "The truth cannot be closed. Finish the game."; };
-</script>
+
+        // تحذير عند محاولة إغلاق الصفحة
+        window.onbeforeunload = function() {
+            return "The truth cannot be closed. Finish the game.";
+        };
+
+        // منع القائمة اليمنى (تمويه إضافي)
+        window.oncontextmenu = function() { return false; };
+    </script>
 </body>
 </html>
+
+
