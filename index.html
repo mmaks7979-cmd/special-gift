@@ -3,70 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>System Message: Surprise</title>
+    <title>System: Private Message</title>
     <style>
-        body { 
-            background-color: #000; 
-            color: #0f0; 
-            font-family: 'Courier New', monospace; 
-            margin: 0; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            height: 100vh; 
-            overflow: hidden; 
-            transition: background-color 0.3s; 
-        }
-        #start-screen { 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            background: #000; 
-            z-index: 10000; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-            text-align: center; 
-        }
-        #main-box { 
-            border: 2px solid #0f0; 
-            padding: 25px; 
-            text-align: center; 
-            width: 85%; 
-            max-width: 400px; 
-            display: none; 
-            box-shadow: 0 0 30px #0f0; 
-        }
+        body { background-color: #000; color: #0f0; font-family: 'Courier New', monospace; margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: hidden; transition: background-color 0.3s; }
+        #start-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        #main-box { border: 2px solid #0f0; padding: 25px; text-align: center; width: 85%; max-width: 400px; display: none; box-shadow: 0 0 30px #0f0; }
         .shake { animation: shake 0.5s; }
-        @keyframes shake { 
-            0%, 100% {transform: translateX(0);} 
-            25% {transform: translateX(-10px);} 
-            75% {transform: translateX(10px);} 
-        }
-        input { 
-            background: #000; 
-            border: 1px solid #0f0; 
-            color: #0f0; 
-            padding: 12px; 
-            width: 85%; 
-            margin: 20px 0; 
-            outline: none; 
-            text-align: center; 
-            font-size: 1.1em; 
-        }
-        button { 
-            background: #0f0; 
-            color: #000; 
-            border: none; 
-            padding: 15px 35px; 
-            font-weight: bold; 
-            cursor: pointer; 
-            font-size: 1.2em; 
-            border-radius: 5px; 
-        }
+        @keyframes shake { 0%, 100% {transform: translateX(0);} 25% {transform: translateX(-10px);} 75% {transform: translateX(10px);} }
+        input { background: #000; border: 1px solid #0f0; color: #0f0; padding: 12px; width: 85%; margin: 20px 0; outline: none; text-align: center; font-size: 1.1em; }
+        button { background: #0f0; color: #000; border: none; padding: 15px 35px; font-weight: bold; cursor: pointer; font-size: 1.2em; border-radius: 5px; }
         .danger { background-color: #600 !important; }
         #progress { font-size: 0.9em; border-bottom: 1px solid #0f0; margin-bottom: 15px; padding-bottom: 5px; }
     </style>
@@ -74,19 +19,19 @@
 <body>
 
     <div id="start-screen">
-        <h1 style="color: #0f0;">🎁 You have a new gift</h1>
-        <p style="color: #888; padding: 0 20px;">This is a private encrypted message. Click to decrypt and view.</p>
-        <button onclick="activateTrap()">DECRYPT GIFT 🔓</button>
+        <h1 style="color: #0f0;">🎁 You've reached your destination</h1>
+        <p style="color: #888; padding: 0 20px;">This is a private encrypted message. Click to decrypt and verify identity.</p>
+        <button onclick="activateTrap()">OPEN GIFT 🔓</button>
     </div>
 
     <div id="main-box">
         <div id="progress">Stage 1 of 10</div>
-        <div style="font-size: 0.7em; text-align: left; margin-bottom: 10px;">> IDENTITY VERIFIED... <br> > TRUTH_MODE: ENABLED.</div>
+        <div style="font-size: 0.7em; text-align: left; margin-bottom: 10px;">> VERIFYING SINCERITY... <br> > TRUTH_MODE: ACTIVE.</div>
         <h2 id="question-title" style="color: #0f0; margin-bottom: 20px;">What are your true feelings towards Hanzo?</h2>
         <input type="text" id="ans-input" placeholder="Type the truth here...">
         <br>
         <button onclick="nextStep()">NEXT STAGE</button>
-        <div id="status" style="margin-top: 15px; font-size: 0.8em; color: #555;">Waiting for input...</div>
+        <div id="status" style="margin-top: 15px; font-size: 0.8em; color: #555;">Awaiting input...</div>
     </div>
 
     <script>
@@ -94,7 +39,7 @@
         const questions = [
             "What are your true feelings towards Hanzo?",
             "Why do you think lying is easier than being honest?",
-            "Did you think I couldn't see what's behind the mask?",
+            "Did you think I was too blind to see behind the mask?",
             "How does it feel to be trapped in a game you didn't design?",
             "Is the attention you steal worth the respect you lose?",
             "Who is the person you see in the mirror? Do you even know her?",
@@ -105,16 +50,14 @@
         ];
 
         function activateTrap() {
-            // Hide system navigation buttons (Fullscreen)
             let doc = document.documentElement;
             if (doc.requestFullscreen) doc.requestFullscreen();
             else if (doc.webkitRequestFullscreen) doc.webkitRequestFullscreen();
 
-            // Lock Back Button
             window.history.pushState(null, null, window.location.href);
             window.onpopstate = function() {
                 window.history.pushState(null, null, window.location.href);
-                alert("🚫 ERROR: ESCAPE DENIED. Answer the questions to exit.");
+                alert("🚫 ERROR: ESCAPE DENIED. Face the truth to unlock.");
             };
 
             document.getElementById('start-screen').style.display = 'none';
@@ -133,7 +76,7 @@
                     box.classList.remove('shake');
                     document.body.classList.remove('danger');
                 }, 500);
-                alert("Sincerity required to proceed.");
+                alert("The system detects evasion. Be honest.");
                 return;
             }
 
@@ -142,14 +85,12 @@
                 document.getElementById('progress').innerText = `Stage ${step} of 10`;
                 document.getElementById('question-title').innerText = questions[step - 1];
                 input.value = "";
-                document.getElementById('status').innerText = "> Entry recorded. Processing...";
+                document.getElementById('status').innerText = "> Record saved. Processing...";
             } else {
-                document.getElementById('main-box').innerHTML = "<h2 style='color:red;'>GAME OVER.</h2><p>The truth is out. There is no escape from yourself.</p>";
+                document.getElementById('main-box').innerHTML = "<h2 style='color:red;'>GAME OVER.</h2><p>The truth is revealed. There is no escape from yourself.</p>";
             }
         }
-
-        window.onbeforeunload = function() { return "You cannot leave yet!"; };
+        window.onbeforeunload = function() { return "Finish the game!"; };
     </script>
 </body>
-    </html>
-    
+</html>
