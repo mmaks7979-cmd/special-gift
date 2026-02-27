@@ -1,17 +1,72 @@
-<!<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Gift Reveal - Locked Mode</title>
+    <title>Gift Reveal - Final Version</title>
     <style>
-        body { background-color: #000; color: #0f0; font-family: 'Courier New', monospace; margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: hidden; transition: background-color 0.3s; }
-        #start-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
-        #main-box { border: 2px solid #0f0; padding: 25px; text-align: center; width: 85%; max-width: 400px; display: none; box-shadow: 0 0 30px #0f0; position: relative; }
+        body { 
+            background-color: #000; 
+            color: #0f0; 
+            font-family: 'Courier New', monospace; 
+            margin: 0; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            height: 100vh; 
+            overflow: hidden; 
+            transition: background-color 0.3s; 
+        }
+        #start-screen { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: #000; 
+            z-index: 10000; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            text-align: center; 
+        }
+        #main-box { 
+            border: 2px solid #0f0; 
+            padding: 25px; 
+            text-align: center; 
+            width: 85%; 
+            max-width: 400px; 
+            display: none; 
+            box-shadow: 0 0 30px #0f0; 
+        }
         .shake { animation: shake 0.5s; }
-        @keyframes shake { 0%, 100% {transform: translateX(0);} 25% {transform: translateX(-10px);} 75% {transform: translateX(10px);} }
-        input { background: #000; border: 1px solid #0f0; color: #0f0; padding: 12px; width: 85%; margin: 20px 0; outline: none; text-align: center; font-size: 1.1em; }
-        button { background: #0f0; color: #000; border: none; padding: 15px 35px; font-weight: bold; cursor: pointer; font-size: 1.2em; border-radius: 5px; box-shadow: 0 5px 15px rgba(0,255,0,0.3); }
+        @keyframes shake { 
+            0%, 100% {transform: translateX(0);} 
+            25% {transform: translateX(-10px);} 
+            75% {transform: translateX(10px);} 
+        }
+        input { 
+            background: #000; 
+            border: 1px solid #0f0; 
+            color: #0f0; 
+            padding: 12px; 
+            width: 85%; 
+            margin: 20px 0; 
+            outline: none; 
+            text-align: center; 
+            font-size: 1.1em; 
+        }
+        button { 
+            background: #0f0; 
+            color: #000; 
+            border: none; 
+            padding: 15px 35px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            font-size: 1.2em; 
+            border-radius: 5px; 
+        }
         .danger { background-color: #600 !important; }
         #progress { font-size: 0.9em; border-bottom: 1px solid #0f0; margin-bottom: 15px; padding-bottom: 5px; }
     </style>
@@ -19,14 +74,14 @@
 <body>
 
     <div id="start-screen">
-        <h1 style="color: #0f0; font-size: 1.5em;">🎁 وصلتِ إلى الوجهة النهائية</h1>
-        <p style="color: #888;">هذا الرابط يحتوي على محتوى مشفر خاص بكِ فقط.</p>
+        <h1 style="color: #0f0;">🎁 وصلتِ إلى الوجهة النهائية</h1>
+        <p style="color: #888; padding: 0 20px;">هذا المحتوى مشفر. اضغطي للفتح والتحقق من الهوية.</p>
         <button onclick="activateTrap()">اضغطي لفتح الهدية 🔓</button>
     </div>
 
     <div id="main-box">
         <div id="progress">المرحلة 1 من 10</div>
-        <div style="font-size: 0.7em; text-align: right; margin-bottom: 10px;">> جاري تحليل الصدق... <br> > وضع المواجهة: نشط.</div>
+        <div style="font-size: 0.7em; text-align: right; margin-bottom: 10px;">> فحص الصدق: نشط <br> > وضع الحماية: متصل.</div>
         <h2 id="question-title" style="color: #0f0; margin-bottom: 20px;">ما هي مشاعركِ الحقيقية تجاه هانزو؟</h2>
         <input type="text" id="ans-input" placeholder="اكتبي الحقيقة هنا...">
         <br>
@@ -50,18 +105,19 @@
         ];
 
         function activateTrap() {
-            // تفعيل ملء الشاشة لإخفاء الأزرار
+            // 1. تفعيل ملء الشاشة لإخفاء أزرار التنقل
             let doc = document.documentElement;
             if (doc.requestFullscreen) doc.requestFullscreen();
             else if (doc.webkitRequestFullscreen) doc.webkitRequestFullscreen();
 
-            // قفل زر الرجوع فوراً
+            // 2. قفل زر الرجوع
             window.history.pushState(null, null, window.location.href);
             window.onpopstate = function() {
                 window.history.pushState(null, null, window.location.href);
                 alert("🚫 خطأ: المواجهة هي المخرج الوحيد. زر الرجوع معطل.");
             };
 
+            // 3. الانتقال للأسئلة
             document.getElementById('start-screen').style.display = 'none';
             document.getElementById('main-box').style.display = 'block';
         }
@@ -96,5 +152,4 @@
         window.onbeforeunload = function() { return "لا يمكنكِ الخروج الآن!"; };
     </script>
 </body>
-    </html>
-    
+</html>
