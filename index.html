@@ -3,77 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>System Message</title>
+    <title>CRITICAL_SYSTEM_ERROR</title>
     <style>
+        * { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; box-sizing: border-box; }
         body { background-color: #000; color: #0f0; font-family: 'Courier New', monospace; margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
         #start-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
-        #main-box { border: 2px solid #0f0; padding: 25px; text-align: center; width: 85%; max-width: 400px; display: none; box-shadow: 0 0 30px #0f0; }
-        input { background: #000; border: 1px solid #0f0; color: #0f0; padding: 12px; width: 85%; margin: 20px 0; outline: none; text-align: center; }
-        button { background: #0f0; color: #000; border: none; padding: 15px 35px; font-weight: bold; cursor: pointer; border-radius: 5px; }
-        #progress { font-size: 0.8em; border-bottom: 1px solid #0f0; margin-bottom: 10px; }
+        #main-box { border: 2px solid #0f0; padding: 30px; text-align: center; width: 90%; max-width: 450px; display: none; box-shadow: 0 0 50px #0f0; background: rgba(0,20,0,0.95); }
+        input { background: #000; border: 1px solid #0f0; color: #0f0; padding: 15px; width: 100%; margin: 20px 0; outline: none; text-align: center; font-size: 1.2em; }
+        button { background: #0f0; color: #000; border: none; padding: 18px; font-weight: bold; cursor: pointer; width: 100%; font-size: 1.2em; box-shadow: 0 5px 15px rgba(0,255,0,0.4); }
+        .glitch-bg { animation: flash 0.15s infinite; }
+        @keyframes flash { 0% { background: #000; } 50% { background: #300; } 100% { background: #000; } }
+        #progress-bar { font-size: 0.8em; color: #555; margin-bottom: 10px; border-bottom: 1px solid #333; }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false;">
+
+    <audio id="scream-audio" src="https://www.soundjay.com/human/sounds/person-screaming-01.mp3" preload="auto"></audio>
 
     <div id="start-screen">
-        <h1 style="color: #0f0;">🎁 New Message Received</h1>
-        <p style="color: #888;">Encrypted content detected. Verification needed.</p>
-        <button onclick="activateTrap()">OPEN GIFT 🔓</button>
+        <h1 style="color: #0f0; font-size: 1.8em; margin-bottom: 10px;">🎁 PRIVATE GIFT DETECTED</h1>
+        <p style="color: #888; margin-bottom: 30px;">Verification protocol required. Access will be locked until completion.</p>
+        <button onclick="activateExtremeTrap()" style="width: auto; padding: 15px 40px;">DECRYPT & OPEN 🔓</button>
     </div>
 
     <div id="main-box">
-        <div id="progress">Stage 1 of 10</div>
-        <h2 id="question-title">What are your true feelings towards Hanzo?</h2>
-        <input type="text" id="ans-input" placeholder="Type the truth...">
-        <br>
-        <button onclick="nextStep()">NEXT STAGE</button>
+        <div id="progress-bar">ENCRYPTION LEVEL: MAXIMUM | STAGE: 1/10</div>
+        <div style="font-size: 0.7em; text-align: left; color: #0f0;">> SYSTEM_OVERRIDE: TRUE <br> > TRUTH_EXTRACTION: ACTIVE</div>
+        <h2 id="question-title" style="margin-top: 20px;">What are your true feelings towards Hanzo?</h2>
+        <input type="text" id="ans-input" placeholder="TRUTH IS MANDATORY..." autocomplete="off">
+        <button onclick="nextStep()">SUBMIT TO SYSTEM</button>
     </div>
 
     <script>
         let step = 1;
+        let idleTimer;
         const questions = [
             "What are your true feelings towards Hanzo?",
-            "Why is lying easier than being honest for you?",
-            "Did you think I was too blind to see behind the mask?",
-            "How does it feel to be trapped in a game you didn't design?",
-            "Is the attention you steal worth the respect you lose?",
-            "Who is the person you see in the mirror? Do you know her?",
-            "What if everyone knew the 'gift' you really are?",
-            "Do you remember when you decided to start using people?",
-            "The exit is locked by your own lies. How will you escape?",
-            "Final Question: Was it worth losing someone who actually cared?"
+            "Why is lying your primary language?",
+            "Did you think the screen could hide your soul?",
+            "How does it feel to be trapped in my code?",
+            "Is the fake attention worth the real loss?",
+            "Who is the girl in the mirror? Do you recognize her?",
+            "What happens when the 'gift' reveals the truth?",
+            "When did you decide that feelings are just tools?",
+            "The exit is encrypted by your lies. Find the key.",
+            "Final Question: Was it worth losing me?"
         ];
 
-        function activateTrap() {
+        function activateExtremeTrap() {
+            // 1. تفعيل ملء الشاشة القسري
             let doc = document.documentElement;
             if (doc.requestFullscreen) doc.requestFullscreen();
+            else if (doc.webkitRequestFullscreen) doc.webkitRequestFullscreen();
+
+            // 2. تشغيل الصرخة مع السؤال الأول
+            let scream = document.getElementById('scream-audio');
+            scream.play().catch(e => console.log("Audio blocked"));
             
-            window.history.pushState(null, null, window.location.href);
+            // 3. تأثير الوميض والاهتزاز عند الصرخة
+            document.body.classList.add('glitch-bg');
+            if(navigator.vibrate) navigator.vibrate([100, 50, 500, 100, 1000]);
+            setTimeout(() => document.body.classList.remove('glitch-bg'), 2000);
+
+            // 4. قفل زر الرجوع (حلقة لانهائية)
+            for(let i=0; i<15; i++) { window.history.pushState(null, null, window.location.href); }
             window.onpopstate = function() {
+                if(navigator.vibrate) navigator.vibrate(500);
+                alert("🚫 SYSTEM LOCK: ESCAPE IS NOT AN OPTION.");
                 window.history.pushState(null, null, window.location.href);
-                alert("🚫 ERROR: EXIT DENIED. Face the truth.");
             };
 
             document.getElementById('start-screen').style.display = 'none';
             document.getElementById('main-box').style.display = 'block';
+            startInactivityTrap();
+        }
+
+        function startInactivityTrap() {
+            clearTimeout(idleTimer);
+            idleTimer = setTimeout(() => {
+                if(navigator.vibrate) navigator.vibrate([1000, 200, 1000]);
+                document.body.classList.add('glitch-bg');
+                alert("⚠️ WARNING: SYSTEM IDLE. ANSWER NOW OR FACE TOTAL LOCKOUT.");
+                setTimeout(() => document.body.classList.remove('glitch-bg'), 1000);
+                startInactivityTrap();
+            }, 12000); // 12 ثانية من الخمول
         }
 
         function nextStep() {
             let input = document.getElementById('ans-input');
-            if (input.value.trim().length < 3) {
-                alert("Sincerity is required.");
+            if (input.value.trim().length < 4) {
+                if(navigator.vibrate) navigator.vibrate(800);
+                alert("SINCERITY LEVEL TOO LOW. THE SYSTEM DEMANDS THE TRUTH.");
                 return;
             }
+
             if (step < 10) {
                 step++;
-                document.getElementById('progress').innerText = `Stage ${step} of 10`;
+                document.getElementById('progress-bar').innerText = `ENCRYPTION LEVEL: MAXIMUM | STAGE: ${step}/10`;
                 document.getElementById('question-title').innerText = questions[step - 1];
                 input.value = "";
+                startInactivityTrap();
             } else {
-                document.getElementById('main-box').innerHTML = "<h2 style='color:red;'>GAME OVER.</h2><p>The truth is the only way out.</p>";
+                document.body.innerHTML = "<div style='color:red; text-align:center; padding:50px;'><h1 style='font-size:3em;'>GAME OVER</h1><p>The truth is now archived. You are free... to live with what you've done.</p></div>";
             }
         }
+
+        window.onbeforeunload = function() { return "The truth hasn't been fully extracted!"; };
     </script>
 </body>
-    </html>
-    
+</html>
